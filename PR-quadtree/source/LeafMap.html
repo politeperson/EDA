@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PR-Quadtree Demo</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+</head>
+<body>
+
+
+
+<div id="mapid" style="width: 1000px; height: 600px;"></div>
+<script>
+
+	var mymap = L.map('mapid').setView([-16.398841, -71.536977], 13);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 25,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+L.rectangle([[-16.401630,-71.533047],[-16.400869,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.533047],[-16.401630,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.531432],[-16.401630,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.530625],[-16.401250,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.531432],[-16.401250,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.531029],[-16.401250,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.531029],[-16.401440,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401535,-71.531432],[-16.401440,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.531432],[-16.401535,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.531231],[-16.401535,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.530625],[-16.400869,-71.530222]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.530222],[-16.400869,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.530625],[-16.401059,-71.530222]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401155,-71.530222],[-16.401059,-71.530020]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401155,-71.530020],[-16.401059,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.530222],[-16.401155,-71.530020]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.531432],[-16.400869,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.531432],[-16.401059,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.531029],[-16.401059,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400964,-71.530827],[-16.400869,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.531029],[-16.400964,-71.530827]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.530827],[-16.400964,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.536276],[-16.400869,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.534661],[-16.401630,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.536276],[-16.401630,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.536276],[-16.402011,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.535468],[-16.402011,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401820,-71.535468],[-16.401630,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401820,-71.535065],[-16.401630,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.535468],[-16.401820,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401915,-71.534863],[-16.401820,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.535065],[-16.401915,-71.534863]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.534863],[-16.401915,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.533854],[-16.400869,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.533854],[-16.401250,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.534661],[-16.401250,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.534258],[-16.401250,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.534258],[-16.401440,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401535,-71.534459],[-16.401440,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.534661],[-16.401535,-71.534459]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.534459],[-16.401535,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.534661],[-16.400869,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401059,-71.534258],[-16.400869,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.534258],[-16.401059,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401155,-71.534661],[-16.401059,-71.534459]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401155,-71.534459],[-16.401059,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.534459],[-16.401155,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.533047],[-16.399348,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.533047],[-16.400108,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.530625],[-16.400108,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.531432],[-16.400489,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.530625],[-16.400489,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400299,-71.531432],[-16.400108,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400299,-71.531029],[-16.400108,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.531432],[-16.400299,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400394,-71.531029],[-16.400299,-71.530827]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400394,-71.530827],[-16.400299,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.530827],[-16.400394,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.531432],[-16.399348,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.530625],[-16.399348,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.530625],[-16.399728,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399918,-71.531029],[-16.399728,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.531432],[-16.399918,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.531029],[-16.399918,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399823,-71.531432],[-16.399728,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399823,-71.531231],[-16.399728,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399918,-71.531432],[-16.399823,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.534661],[-16.399348,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.536276],[-16.400108,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.534661],[-16.400108,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.536276],[-16.399348,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.535468],[-16.399348,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.536276],[-16.399728,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399918,-71.535065],[-16.399728,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.535468],[-16.399918,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.535065],[-16.399918,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399823,-71.535468],[-16.399728,-71.535267]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399823,-71.535267],[-16.399728,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399918,-71.535267],[-16.399823,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.539504],[-16.400869,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.539504],[-16.401630,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.537890],[-16.401630,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.537083],[-16.401630,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.537083],[-16.402011,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402201,-71.537890],[-16.402011,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402201,-71.537486],[-16.402011,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.537890],[-16.402201,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402296,-71.537486],[-16.402201,-71.537284]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402296,-71.537284],[-16.402201,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.537284],[-16.402296,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.537890],[-16.400869,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.537083],[-16.400869,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.537083],[-16.401250,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.537890],[-16.401250,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.537890],[-16.401440,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401535,-71.537284],[-16.401440,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.537486],[-16.401535,-71.537284]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.537284],[-16.401535,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401345,-71.537486],[-16.401250,-71.537284]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401345,-71.537284],[-16.401250,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.537284],[-16.401345,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.541119],[-16.400869,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.540311],[-16.401630,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.541119],[-16.402011,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.540311],[-16.402011,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401820,-71.541119],[-16.401630,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401820,-71.540715],[-16.401630,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.540715],[-16.401820,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401915,-71.541119],[-16.401820,-71.540917]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401915,-71.540917],[-16.401820,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.541119],[-16.401915,-71.540917]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.542733],[-16.401630,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402011,-71.541926],[-16.401630,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.542733],[-16.402011,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402201,-71.541926],[-16.402011,-71.541522]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402201,-71.541522],[-16.402011,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.541926],[-16.402201,-71.541522]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402296,-71.541522],[-16.402201,-71.541320]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402296,-71.541320],[-16.402201,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.541320],[-16.402296,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.542733],[-16.400869,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401250,-71.541926],[-16.400869,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.541926],[-16.401250,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.542733],[-16.401250,-71.542329]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401440,-71.542329],[-16.401250,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.542733],[-16.401440,-71.542329]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401535,-71.542329],[-16.401440,-71.542128]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401535,-71.542128],[-16.401440,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.401630,-71.542128],[-16.401535,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.539504],[-16.400108,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.537890],[-16.400108,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.537083],[-16.400108,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.537890],[-16.400489,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400679,-71.536679],[-16.400489,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.537083],[-16.400679,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.536679],[-16.400679,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400584,-71.537083],[-16.400489,-71.536881]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400584,-71.536881],[-16.400489,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400679,-71.536881],[-16.400584,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.537083],[-16.399348,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.537890],[-16.399728,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.537083],[-16.399728,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.537890],[-16.399348,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.537890],[-16.399538,-71.537486]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.537486],[-16.399538,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399443,-71.537486],[-16.399348,-71.537284]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399443,-71.537284],[-16.399348,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.537486],[-16.399443,-71.537284]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.538697],[-16.399348,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.539504],[-16.399728,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.538697],[-16.399728,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.539504],[-16.399348,-71.539101]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.539101],[-16.399348,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.539101],[-16.399538,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399633,-71.539504],[-16.399538,-71.539302]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.539504],[-16.399633,-71.539302]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.539302],[-16.399633,-71.539101]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.542733],[-16.399348,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.542733],[-16.400108,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.541119],[-16.400108,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400489,-71.540311],[-16.400108,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.540311],[-16.400489,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400679,-71.541119],[-16.400489,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.541119],[-16.400679,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400869,-71.540715],[-16.400679,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400584,-71.540715],[-16.400489,-71.540513]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400584,-71.540513],[-16.400489,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400679,-71.540513],[-16.400584,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.541119],[-16.399348,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.541119],[-16.399728,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.400108,-71.540311],[-16.399728,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.539908],[-16.399348,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.540311],[-16.399538,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399728,-71.539908],[-16.399538,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399443,-71.540110],[-16.399348,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.540311],[-16.399443,-71.540110]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399538,-71.540110],[-16.399443,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.533047],[-16.397826,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.536276],[-16.397826,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.536276],[-16.398587,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.534661],[-16.398587,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.533854],[-16.398587,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.533854],[-16.398967,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.534661],[-16.398967,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.534258],[-16.398967,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.534661],[-16.399157,-71.534258]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399252,-71.534258],[-16.399157,-71.534056]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399252,-71.534056],[-16.399157,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.534258],[-16.399252,-71.534056]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.534661],[-16.397826,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.533854],[-16.397826,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.534661],[-16.398206,-71.533854]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.533854],[-16.398206,-71.533450]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.533450],[-16.398206,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.533450],[-16.398396,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398492,-71.533854],[-16.398396,-71.533652]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.533854],[-16.398492,-71.533652]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.533652],[-16.398492,-71.533450]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.533047],[-16.396304,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.531432],[-16.396304,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.530625],[-16.397065,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.530625],[-16.397445,-71.529818]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.531432],[-16.397445,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.531029],[-16.397445,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.531029],[-16.397636,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397731,-71.531432],[-16.397636,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.531432],[-16.397731,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.531231],[-16.397731,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397255,-71.531432],[-16.397065,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397255,-71.531029],[-16.397065,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.531029],[-16.397255,-71.530625]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397350,-71.531231],[-16.397255,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.531432],[-16.397350,-71.531231]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.531231],[-16.397350,-71.531029]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.533047],[-16.397065,-71.532240]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.532240],[-16.397065,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.533047],[-16.397445,-71.532240]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.531836],[-16.397445,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.532240],[-16.397636,-71.531836]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397731,-71.531634],[-16.397636,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.531836],[-16.397731,-71.531634]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.531634],[-16.397731,-71.531432]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397540,-71.532038],[-16.397445,-71.531836]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.532240],[-16.397540,-71.532038]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.532038],[-16.397540,-71.531836]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.534661],[-16.396304,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.536276],[-16.397065,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.534661],[-16.397065,-71.533047]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396684,-71.536276],[-16.396304,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396684,-71.535468],[-16.396304,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.536276],[-16.396684,-71.535468]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396875,-71.535468],[-16.396684,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396875,-71.535065],[-16.396684,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.535468],[-16.396875,-71.535065]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396970,-71.535065],[-16.396875,-71.534863]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.396970,-71.534863],[-16.396875,-71.534661]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.535065],[-16.396970,-71.534863]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.537890],[-16.398587,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.539504],[-16.398587,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.538697],[-16.398587,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.538697],[-16.398967,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.539504],[-16.398967,-71.539101]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.539101],[-16.398967,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.539101],[-16.399157,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399252,-71.539302],[-16.399157,-71.539101]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.539504],[-16.399252,-71.539302]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.539302],[-16.399252,-71.539101]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.537890],[-16.397826,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.537083],[-16.397826,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.537890],[-16.398206,-71.537083]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.536679],[-16.398206,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.537083],[-16.398396,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.536679],[-16.398396,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398301,-71.537083],[-16.398206,-71.536881]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398301,-71.536881],[-16.398206,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.536881],[-16.398301,-71.536679]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.539504],[-16.397826,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.539504],[-16.398206,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.538697],[-16.398206,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.538697],[-16.398396,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.538293],[-16.398396,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398301,-71.538293],[-16.398206,-71.538092]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.538293],[-16.398301,-71.538092]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.538092],[-16.398301,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398016,-71.538293],[-16.397826,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.538697],[-16.398016,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.538293],[-16.398016,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397921,-71.538697],[-16.397826,-71.538495]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397921,-71.538495],[-16.397826,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398016,-71.538697],[-16.397921,-71.538495]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.541119],[-16.398587,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.541119],[-16.398967,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.540311],[-16.398967,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398777,-71.540311],[-16.398587,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398777,-71.539908],[-16.398587,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.539908],[-16.398777,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398872,-71.540311],[-16.398777,-71.540110]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398872,-71.540110],[-16.398777,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.540110],[-16.398872,-71.539908]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.542733],[-16.398587,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398967,-71.541926],[-16.398587,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.541926],[-16.398967,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.542329],[-16.398967,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.542733],[-16.399157,-71.542329]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399348,-71.542329],[-16.399157,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399062,-71.542733],[-16.398967,-71.542531]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.542733],[-16.399062,-71.542531]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.399157,-71.542531],[-16.399062,-71.542329]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.540311],[-16.397826,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.541119],[-16.398206,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.540311],[-16.398206,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398016,-71.541119],[-16.397826,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398016,-71.540715],[-16.397826,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.540715],[-16.398016,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398111,-71.541119],[-16.398016,-71.540917]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.541119],[-16.398111,-71.540917]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.540917],[-16.398111,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.542733],[-16.397826,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398206,-71.541926],[-16.397826,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.542733],[-16.398206,-71.541926]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.541926],[-16.398206,-71.541522]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.541926],[-16.398396,-71.541522]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398492,-71.541522],[-16.398396,-71.541320]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398492,-71.541320],[-16.398396,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398587,-71.541320],[-16.398492,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398301,-71.541522],[-16.398206,-71.541320]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398301,-71.541320],[-16.398206,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.398396,-71.541522],[-16.398301,-71.541320]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.539504],[-16.396304,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.537890],[-16.396304,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.537890],[-16.397065,-71.536276]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.539504],[-16.397065,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.538697],[-16.397065,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.539504],[-16.397445,-71.538697]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.538697],[-16.397445,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397636,-71.538293],[-16.397445,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.538293],[-16.397636,-71.537890]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397731,-71.538697],[-16.397636,-71.538495]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397731,-71.538495],[-16.397636,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.538495],[-16.397731,-71.538293]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.542733],[-16.396304,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397065,-71.541119],[-16.396304,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.542733],[-16.397065,-71.541119]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.540311],[-16.397065,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.541119],[-16.397445,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397826,-71.540311],[-16.397445,-71.539504]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397255,-71.541119],[-16.397065,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397255,-71.540715],[-16.397065,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.541119],[-16.397255,-71.540715]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397350,-71.540715],[-16.397255,-71.540513]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397350,-71.540513],[-16.397255,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.397445,-71.540513],[-16.397350,-71.540311]], {color: "#0C0C0B", weight: 1}).addTo(mymap);
+L.rectangle([[-16.402391,-71.542733],[-16.396304,-71.529818]], {color: "#F4A08E", weight: 1}).addTo(mymap);
+	var popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+	}
+
+	mymap.on('click', onMapClick);
+
+</script>
+</body>
+</html>
