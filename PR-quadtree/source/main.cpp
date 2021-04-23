@@ -7,27 +7,6 @@
 
 
 int main() {
-	// lng_range = [-71.542733, -71.529818], lat_range = [-16.402391, -16.396304]
-	double range_lat[2] = { -16.402391, -16.396304 };
-	double range_lng[2] = { -71.542733, -71.529818 };
-
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<>dislat(range_lat[0], range_lat[1]);
-	std::uniform_real_distribution<>dislng(range_lng[0], range_lng[1]);
-
-	// lng_range = [-71.542733, -71.529818], lat_range = [-16.402391, -16.396304]
-	// Box = [lng_range, lat_range]
-	std::pair<double, double> Box[2] = {std::make_pair(range_lng[0], range_lng[1]), 
-										std::make_pair(range_lat[0], range_lat[1])};
-	
-	unsigned int tree_depth;
-	std::cout << "Enter the depth of the PR-quadtree: ";
-	std::cin >> tree_depth;
-	// PR-quadtree of depth 4
-	// the tree charges the points in (longitude, lattitude) form
-	QuadTree QTree(Box, tree_depth);
-
 	std::ifstream File_Head;
 	std::string filename = "HeadMap.txt", line;
 	std::string header = "";
@@ -38,7 +17,8 @@ int main() {
 		File_Head.close();
 	}
 	else {
-		std::cout << "No se puedo abrir el archivo" << filename << std::endl;
+		std::cout << "No se puedo abrir el archivo: " << filename << std::endl;
+		exit(1);
 	}
 
 	std::ifstream File_Tale;
@@ -51,55 +31,87 @@ int main() {
 		File_Tale.close();
 	}
 	else {
-		std::cout << "No se puedo abrir el archivo" << filename << std::endl;
+		std::cout << "No se puedo abrir el archivo: " << filename << std::endl;
+		exit(1);
 	}
 
-	int num_points;
-	std::cout << "Choose Number of Points: ";
-	std::cin >> num_points;
 
+	// reading dataset	of points
+	std::ifstream File_DataSet;
+	filename = "DataSet.tsv";
+	File_DataSet.open(filename);
 	double rndlng, rndlat;
-	for (int i = 0; i < num_points; ++i) {
-		rndlng = dislng(gen), rndlat = dislat(gen);
-		QTree.insert(std::make_pair(rndlng, rndlat));
+	// lng_range = [a, b], lat_range = [c, d], where a<=b and c<=d
+	double range_lat[2] = { LDBL_MAX, LDBL_MIN };
+	double range_lng[2] = { LDBL_MAX, LDBL_MIN };
+	std::vector<std::pair<double, double>> DataSetPoints;
+
+	if (File_DataSet.is_open()) {
+		// on the dataset first is the lattitude and later the longitude
+		while (File_DataSet >> rndlat >> rndlng) {
+			DataSetPoints.push_back(std::make_pair(rndlng, rndlat));
+			// lattitude
+			range_lat[0] = std::min(range_lat[0], rndlat);
+			range_lat[1] = std::max(range_lat[1], rndlat);
+			// longitude
+			range_lng[0] = std::min(range_lng[0], rndlng);
+			range_lng[1] = std::max(range_lng[1], rndlng);
+		}
+		File_DataSet.close();
+	}
+	else {
+		std::cout << "No se puedo abrir el archivo: " << filename << std::endl;
+		exit(1);
+	}
+	
+	unsigned int tree_depth;
+	std::cout << "Enter the depth of the PR-quadtree: ";
+	std::cin >> tree_depth;
+
+	// lng_range = [a, b], lat_range = [c, d]
+	// Box = [lng_range, lat_range]
+	std::pair<double, double> Box[2] = { std::make_pair(range_lng[0], range_lng[1]),
+										std::make_pair(range_lat[0], range_lat[1]) };
+
+	// the tree charges the points in (longitude, lattitude) form
+	QuadTree QTree(Box, tree_depth);
+	size_t DataSetSize = DataSetPoints.size();
+	for (size_t i = 0; i < DataSetSize; ++i) {
+		QTree.insert(DataSetPoints[i]);
 	}
 
-	std::vector<std::pair<std::pair<double, double>, std::pair<double, double>>> Rectangles = leaflet::GenerateLeafRectangles(QTree);
-	/*for (int i = 0; i < Rectangles.size(); ++i) {
-			std::cout << "Rectangle " << i + 1 << "\n";
-			std::cout << "ldcorner: [" << Rectangles[i].first.first << "," << Rectangles[i].first.second << "]" << std::endl;
-			std::cout << "rucorner: [" << Rectangles[i].second.first << "," << Rectangles[i].second.second << "]" << std::endl;
-		}/**/
+	std::vector<RectangleLeaf> Rectangles = leaflet::GenerateLeafRectangles(QTree);
+	
 
 	std::unordered_map<std::string, std::string> Rect;
 	Rect["declare"] = "L.rectangle(";
-	Rect["pol_options"] = ", {color: \"#0C0C0B\", weight: 1}).addTo(mymap);\n";
-	Rect["pol_options_big"] = ", {color: \"#F4A08E\", weight: 1}).addTo(mymap);\n";
+	Rect["pol_options_first"] = ", {color: \"";
+	Rect["pol_options_second"] = "\", weight: 1, fillOpacity: 1, fill: true}).addTo(mymap);\n";
 	std::string little_rects = "";
 	int RectanglesSize = Rectangles.size();
 	for (int i = 0; i < RectanglesSize; ++i) {
 		little_rects += Rect["declare"];
-		little_rects += "[[" + std::to_string(Rectangles[i].first.first) + "," + std::to_string(Rectangles[i].first.second) + "],";
-		little_rects += "[" + std::to_string(Rectangles[i].second.first) + "," + std::to_string(Rectangles[i].second.second) + "]]";
-		little_rects += Rect["pol_options"];
+		// adding left-down corner: (lat,lng)
+		little_rects += "[[" + std::to_string(Rectangles[i].ldcorner.first) + "," + std::to_string(Rectangles[i].ldcorner.second) + "],";
+		// adding right-up corner: (lat, lng)
+		little_rects += "[" + std::to_string(Rectangles[i].rucorner.first) + "," + std::to_string(Rectangles[i].rucorner.second) + "]]";
+		// adding the color of the Rectangle
+		little_rects += Rect["pol_options_first"] + Rectangles[i].color + Rect["pol_options_second"];
 	}
 	
-	std::string big_rect = Rect["declare"];
-	big_rect += "[[" + std::to_string(range_lat[0]) + "," + std::to_string(range_lng[0]) + "],";
-	big_rect += "[" + std::to_string(range_lat[1]) + "," + std::to_string(range_lng[1]) + "]]";
-	big_rect += Rect["pol_options_big"];
-
+	
 	// here goes the map file
 	std::ofstream File_Map;
 	filename = "LeafMap.html"; // we generate the map file
 	File_Map.open(filename);
 	File_Map << header; // first goes the header
 	File_Map << little_rects; // then we add the rectangles
-	File_Map << big_rect;
 	File_Map << tale;
 	File_Map.close();
-
+	/**/
 	/*
+	std::vector<dd> Box = {std::make_pair(13.0, 17.0), std::make_pair(6.0, 10.0)};
+	QuadTree QTree(Box, 3);
 	// NW
 	std::cout << "NW\n";
 	std::cout << QTree.insert(std::make_pair(14.68362, 9.71794)) << "\n";

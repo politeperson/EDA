@@ -5,6 +5,9 @@
 #include <vector>
 #include <utility>
 #include <stack>
+#include <algorithm>
+
+#define MAX_DEPTH 20
 
 class Node
 { 
@@ -111,32 +114,36 @@ public:
 
 		for (auto& child : children)
 			delete child;
-		 /*std::cout << "deleting Box: " << Box[0].first << " " << Box[0].second << "\n";
-		 std::cout << "deleting Box: " << Box[1].first << " " << Box[1].second << "\n";*/
+		 /*std::cout << "deleting Box ([" << Box[0].first << ", " << Box[0].second << "], ";
+		 std::cout << "[" << Box[1].first << ", " << Box[1].second << "])\n";*/
 	}
 };
 
 class QuadTree
 {
 private:
-	unsigned int TreeDepth;
+	unsigned int TreeDepth; // cero-index based for the depth
 	Node* root;
 public:
 	QuadTree(std::pair<double,double> _Box[], unsigned int _TreeDepth) {
 		root = new Node(_Box);
-		TreeDepth = _TreeDepth;
+		TreeDepth = std::min(static_cast<unsigned int>(MAX_DEPTH), _TreeDepth);
 	}
 	QuadTree(std::vector<std::pair<double, double>> _Box, unsigned int _TreeDepth) {
 		root = new Node(_Box);
-		TreeDepth = _TreeDepth;
+		TreeDepth = std::min(static_cast<unsigned int>(MAX_DEPTH), _TreeDepth);
 	}
 	QuadTree(Node _root, unsigned int _TreeDepth) {
 		root = new Node(_root);
-		TreeDepth = _TreeDepth;
+		TreeDepth = std::min(static_cast<unsigned int>(MAX_DEPTH), _TreeDepth);
 	}
 
 	Node* getRoot() {
 		return root;
+	}
+
+	unsigned int getDepth() {
+		return TreeDepth;
 	}
 
 	// receive a point, returns true if the point is present, false otherwise
@@ -201,7 +208,7 @@ public:
 		int quadrant;
 		std::vector<std::pair<double, double>> NewBox;
 		// depth is positive or 0
-		while (depth < TreeDepth) {
+		while (depth < TreeDepth - 1) { // this is because we use cero-base depth [0,depth-1]
 			// as P is inside the root box, is proved that quadrant could not be less than 0 or greather than 3
 			quadrant = (*ptrs.top())->ChooseLeaf(P); 
 			NewBox = (*ptrs.top())->GenerateBox(quadrant);
@@ -246,8 +253,8 @@ public:
 		// if the point is already covered by quadrants, we return -1
 		if (!find(P, depth, ptrs)) return false;
 		int quadrant;
-		
-		while (depth < TreeDepth) {
+		// cero-base depth [0, depth -1]
+		while (depth < TreeDepth - 1) {
 			quadrant = (*ptrs.top())->ChooseLeaf(P);
 			for (int i = 0; i < 4; i++)
 				(*ptrs.top())->children[i] = new Node((*ptrs.top())->GenerateBox(i), true);
