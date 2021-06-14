@@ -19,14 +19,15 @@ Las funciones principales se encuentran en la clase **KM**, en particular revise
 ### Ejemplos  
 Son tres los ejemplos de prueba y el dataset NY, cuyos resultados se ve en la carpeta `k-means-sfml/results/`, primero mostramos los ejemplos de prueba:  
 **caja simple 5K puntos con 5 clusters**
-![caja simple 5K puntos con 5 clusters logs](k-means-sfml\results\example_5Kp_5C_log.PNG)
-![caja simple 5K puntos con 5 clusters](k-means-sfml\results\example_5Kp_5C_visual.PNG)
+![caja simple 5K puntos con 5 clusters logs](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/example_5Kp_5C_log.PNG)
+![caja simple 5K puntos con 5 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/example_5Kp_5C_visual.PNG)
 **círculos simples (10) con 5 clusters**
-![circulo simple 10 con 5 clusters](k-means-sfml\results\Circles_10_5C_log.PNG)
-![circulo simple 10 con 5 clusters](k-means-sfml\results\Circles_10_5C_visual.PNG)
+![circulo simple 10 con 5 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/Circles_10_5C_log.PNG)
+![circulo simple 10 con 5 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/Circles_10_5C_visual.PNG)
 **cuadrados simples (5) con 5 clusters**
-![cuadrado simple 5 con 5 clusters](k-means-sfml\results\Squares_5_5C_log.PNG)
-![cuadrado simple 5 con 5 clusters](k-means-sfml\results\Squares_5_5C_visual.PNG)
+![cuadrado simple 5 con 5 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/Squares_5_5C_log.PNG)
+![cuadrado simple 5 con 5 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/Squares_5_5C_visual.PNG)
 **NY dataset 100K puntos con 7 clusters**
 En el gráfico no se aprecia bien la agrupación ya que no se hizo el acercamiento debido.  
-![NY con 100K 7 clusters](k-means-sfml\results\NY_data_set_100K_with_7_clusters.PNG)
+![NY con 100K 7 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/NY_data_set_100K_with_7_clusters.PNG)
+Para ver mas conjuntos de datos revise la carpeta `k-means-sfml/results/`.
