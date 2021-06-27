@@ -31,3 +31,26 @@ Son tres los ejemplos de prueba y el dataset NY, cuyos resultados se ve en la ca
 En el gráfico no se aprecia bien la agrupación ya que no se hizo el acercamiento debido.  
 ![NY con 100K 7 clusters](https://raw.githubusercontent.com/politeperson/EDA/main/k-means-sfml/results/NY_data_set_100K_with_7_clusters.PNG)  
 Para ver mas conjuntos de datos revise la carpeta `k-means-sfml/results/`.  
+# Lista Persistente  
+El trabajo consistió en hacer una lista persistente que permite la inserción de nodos con un nombre de campo y su valor, cada nodo presenta una tabla de datos: **[\<field\>:\<value\>]** y una de modificaciones con el formato **V(\<version\>) [\<field\>:\<value\>]**, además de una tabla de punteros a sus siguientes nodos con el formato **V(\<version\> : \<nextPtr\>)**, cada vez que inserto un nuevo nodo en la lista la versión se actualiza.  
+Las funciones importantes son **_insert(nodePtr, field, value, newPtr=nullptr)_** y **_find(version,field)_**.  
+### Función insert  
+#### descripción:
+Actualiza el valor de algún campo de los datos de un nodo con la versión actual de la lista, en caso que se desee modificar el puntero siguiente, pasamos como parámetro el nodo siguiente, también actualiza la versión de la lista(++version_list) después de realizada la inserción.  
+#### parámetros:
+* *_nodePtr_* es un nodo de la lista, donde se insertará el nuevo registro.  
+* *_field_* es el nombre del campo registrado en la tabla de datos del nodo *_nodePtr_*, en caso de que este sea **\"NEXT_PTR\"** significa que modificaremos su puntero siguiente.  
+* *_value_* es el nuevo valor del campo modificado.  
+* *_newPtr_* es el nuevo nodo apuntado por *_nodePtr_* en su tabla de punteros siguientes, solo se debe llenar cuando *_field_*=**\"NEXT_PTR\"**.  
+#### resultados:  
+La lista se actualiza con el nuevo dato y aumenta internamente la versión.  
+### Función find  
+#### descripción:
+Busca el valor del campo *_field_* en la versión *_version_* y lo imprime.  
+#### parámetros:
+* *_version_* es la versión específica del campo que estamos buscando.  
+* *_field_* es el nombre del campo el cual deseamos encontrar, si tuviese el valor **\"NEXT_PTR\"** buscaremos el puntero siguiente, por lo que imprimiremos los datos de un nodo.  
+#### resultados:  
+Imprime el valor del campo en la versión especificada.  
+## Uso del programa  
+Dentro de la carpeta `PersistentList` ejecute el comando `cmake -S . -B build`, luego entre a la carpeta build y dependiendo de su compilador de c++ compile y ejecute el programa, el programa main.cpp presenta un ejemplo predefinido que puede verlo como imagen en la carpeta `images/abstract_example.svg`, los datos de entrada del ejemplo se encuentran en el documento `source/inputs.txt`.  
