@@ -1,4 +1,6 @@
 # Curso de Estructuras de datos avanzadas (EDA 2021-01)  
+## Proyecto-Final  
+Entre en la carpeta `Proyecto-Final`, ahí encontrará las indicaciones para su uso y su descripción.  
 ## vectors-distance  
 Tarea para obtener una matriz de distancias  
 ## PR-QuadTree  
