@@ -1,0 +1,12 @@
+# Proyecto final (**Substring Matching**) para el curso de estructuras de datos avanzadas  
+## Vista general
+La definición del problema y los algoritmos implementados los encuentra en la carpeta `presentations/`, dentro hay dos documentos `presentations/parcial_presentacion_1.pdf` y `presentations/final_presentacion_2.pdf`, en el primero se expone el problema y en el segundo se muestran las implementaciones en C++ de los algoritmos propuestos en la presentación parcial, además de los resultados de las pruebas realizadas en el software.  
+## Conjunto de datos  
+En la carpeta `PythonProcesses/` están ubicados los programas hechos en python para generar el conjunto de datos limpio: [data_set.txt](https://drive.google.com/file/d/1Bb9Jqn16zbLK69xlGaljnsok23Vutuil/view?usp=sharing), que usamos en la generación de nuestro SuffixTree en C++. El primer conjunto de datos lo encuentra en el siguiente link: [Arxiv Dataset](https://www.kaggle.com/Cornell-University/arxiv).  
+## Compilación  
+Usé `cmake` como controlador para la compilación del proyecto, para compilar primero decargue cmake (preferiblemente la última versión), y luego pase a ejecutar el siguiente comando dentro de esta carpeta: `cmake -S . -B build`, esto generará un proyecto listo para compilarse con el compilador de C++ por defecto de su sistema operativo (si no comprende de lo que hablo, es preferible que vea un tutorial acerca de cmake).  
+## Uso y advertencias  
+El programa primero le indicará que ingrese la cantidad de documentos que desea cargar, puede cargar hasta 1.7 Millones aproximadamente, pero tan solo con 20000 el programa ocupa alrededor de 4.2 GB, por lo que no recomiendo cargar varios a menos que se tenga una RAM de 512 GB.  
+Una vez ingresada la cantidad de documentos a cargarse, el programa demorará un poco o mucho (dependiendo de la cantidad de documentos) en generar el árbol de sufijos, el programa le indicará que ingrese un texto cualquiera o **"EXIT"** para salir, el tiempo de construcción del árbol se muestra en milisegundos, el tiempo de búsqueda es bastante bajo, por lo que se muestra en microsegundos.  
+El programa le retornará un ranking de búsqueda con los mejores resultados (usando la fórmula TF-IDF) en documentos que contengan mas veces la palabra solicitada.  
+Nota: Revise el documento `presentations/final_presentacion_2.pdf`, la sección _Resultados_ para ver las pruebas realizadas al árbol de sufijos.  
